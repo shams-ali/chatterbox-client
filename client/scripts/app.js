@@ -1,6 +1,5 @@
 // YOUR CODE HERE:
 class App {
-  
   constructor() {
     this.friendsArray = [];
   }
@@ -9,6 +8,14 @@ class App {
     $('.username').on('click', function() {
       var user = $('.username').text();
       context.addFriend(user);
+    });
+    //button is doing submit action, init is being called 3 times, every time you call init
+    //you unbind the previous and remind again
+    $('#send').unbind('submit').bind('submit', function(e) {
+      e.preventDefault();
+      var messageInput = $('#message').val();
+      var userInput = $('.username').text();
+      context.handleSubmit(messageInput, userInput);      
     });
   } 
   send(message) {
@@ -63,13 +70,11 @@ class App {
     }
   }
   addFriend(friend) {
-    // $('#main').append('<div></div>');
     this.friendsArray.push(friend);
-    console.log(this.friendsArray);
-
-    // this.restore = function() {
-
-    // };
+  }
+  handleSubmit(message, userName) {
+    //user name + : + message to #chats div
+    $('#chats').append('<div id="chat">' + message + '</div>');
   }
 }
   

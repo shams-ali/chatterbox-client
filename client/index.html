@@ -5,6 +5,23 @@
     <title>chatterbox</title>
     <link rel="stylesheet" href="styles/styles.css">
 
+
+  </head>
+  <body>
+    <div id="main">
+      <h1>chatterbox</h1>Room: 
+      <select>
+        <option selected="selected">Choose a Chat Room</option>
+        <option value="saab">saab</option>
+      </select>      <!-- Your HTML goes here! -->
+      <form id="send">
+        <input id="message" type="text">
+        <button type = "submit" class="submit">Submit</button>
+        <!-- <button class="submit" id="send" onclick="app.init()">Submit</button> -->
+    </form>
+    </div>
+    <div id="chats">
+    </div>
     <!-- dependencies -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.6.15/browser.js"></script>
     <script src="bower_components/jquery/dist/jquery.js"></script>
@@ -12,24 +29,7 @@
     <script src="bower_components/backbone/backbone.js"></script>
 
     <!-- your scripts -->
-    <script src="env/config.example.js"></script>
+    <script src="env/config.js"></script>
     <script src="scripts/app.js"></script>
-  </head>
-  <body>
-    <div id="main">
-      <h1>chatterbox</h1>
-      <h3 class="roomDropdownMenu">Room: </h3>
-      <select>
-        <option selected="selected">Choose a Chat Room</option>
-        <option value="saab">saab</option>
-      </select>      <!-- Your HTML goes here! -->
-      <form>
-        <input type="text" name="chatMessage">
-        <button>Submit</button>
-    </form>
-    </div>
-    <div id="chats">
-    </div>
-
   </body>
 </html>
