@@ -15,8 +15,14 @@ class App {
     $('#send').submit(function(e) {
       e.preventDefault();
       var messageInput = $('#message').val();
-      var userInput = $('.username').text();
-      context.handleSubmit(messageInput, userInput);      
+      var userInput = $('.username').val();
+      var roomInput = $('#roomSelect').val();
+      var obj = {
+        username: userInput,
+        text: messageInput,
+        roomname: roomInput
+      };
+      context.handleSubmit(obj);      
     });
   } 
   send(message) {
@@ -73,11 +79,11 @@ class App {
   addFriend(friend) {
     this.friendsArray.push(friend);
   }
-  handleSubmit(message, userName) {
-    //user name + : + message to #chats div
-    app.fetch(message);
-    app.send(message);
-    $('#chats').append('<div id="chat">' + message + '</div>');
+  handleSubmit(obj) {
+    var username = window.location.search.split('=')[1];
+    app.send(obj);
+    app.fetch(obj);
+    $('#chats').append('<div id="chat"><a href="">' + username + '</a>: ' + obj.text + '</div>');
   }
 }
   
