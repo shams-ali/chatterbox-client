@@ -3,27 +3,25 @@ class App {
   constructor() {
     this.friendsArray = [];
     this.server = 'https://api.parse.com/1/classes/messages';
+    this.inited= false;
   }
   init() {
+    if(this.inited){
+      return;
+    }
+    this.inited = true;
     var context = this;
-    $('.username').on('click', function() {
-      var user = $('.username').text();
-      context.addFriend(user);
-    });
-    //button is doing submit action, init is being called 3 times, every time you call init
-    //you unbind the previous and remind again
     $('#send').submit(function(e) {
       e.preventDefault();
       var messageInput = $('#message').val();
-      var userInput = $('.username').val();
+      var userInput = window.location.search.split('=')[1];
       var roomInput = $('#roomSelect').val();
       var obj = {
         username: userInput,
         text: messageInput,
         roomname: roomInput
       };
-      context.handleSubmit(obj);
-      //context.fetch();      
+      context.handleSubmit(obj);      
     });
   } 
   send(message) {
@@ -66,10 +64,14 @@ class App {
     $('#chats').empty();
   }
   addMessage(message) {
-    console.log(message);
+    var context = this;
     $('#chats').append('<div class="message"></div>');
     $('.message').append('<h2><a class="username" href=' + message.username + '</a></h2>');
     $('.message').append('<p>' + message.text + '</p>');
+    $('.username').on('click', function() {
+      var user = $('.username').text();
+      context.addFriend(user);
+    });
   }
   addRoom(chatRoom) {
     var roomExists = false;
@@ -86,15 +88,14 @@ class App {
     this.friendsArray.push(friend);
   }
   handleSubmit(obj) {
-    var username = window.location.search.split('=')[1];
     app.send(obj);
     app.fetch(obj);
-    $('#chats').append('<div id="chat"><a href="">' + username + '</a>: ' + obj.text + '</div>');
+    $('#chats').append('<div id="chat"><a href="">' + obj.username + '</a>: ' + obj.text + '</div>');
   }
 }
   
 var app = new App();
 
-$( document ).ready(function() {
+$(document).ready(function() {
   app.init();
 });
