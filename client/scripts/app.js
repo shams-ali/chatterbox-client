@@ -3,13 +3,13 @@ class App {
   constructor() {
     this.friendsArray = [];
     this.server = 'https://api.parse.com/1/classes/messages';
-    this.inited= false;
+    this.inited = false;
   }
   init() {
-    if(this.inited){
-      return;
-    }
-    this.inited = true;
+    // if (this.inited) {
+    //   return;
+    // }
+    // this.inited = true;
     var context = this;
     $('#send').submit(function(e) {
       e.preventDefault();
@@ -73,7 +73,7 @@ class App {
       context.addFriend(user);
     });
   }
-  addRoom(chatRoom) {
+  addRoom (chatRoom) {
     var roomExists = false;
     $('#main a').each(function( index ) {
       if ($(this).text() === chatRoom) {
