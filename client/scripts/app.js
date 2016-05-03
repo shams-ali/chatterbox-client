@@ -22,7 +22,8 @@ class App {
         text: messageInput,
         roomname: roomInput
       };
-      context.handleSubmit(obj);      
+      context.handleSubmit(obj);
+      //context.fetch();      
     });
   } 
   send(message) {
@@ -49,6 +50,10 @@ class App {
       data: JSON.stringify(message),
       contentType: 'application/json',
       success: function (data) {
+        _.each(data.results, function(val) {
+
+          app.addMessage(val);
+        });
         console.log('chatterbox: Message received');
       },
       error: function (data) {
@@ -61,6 +66,7 @@ class App {
     $('#chats').empty();
   }
   addMessage(message) {
+    console.log(message);
     $('#chats').append('<div class="message"></div>');
     $('.message').append('<h2><a class="username" href=' + message.username + '</a></h2>');
     $('.message').append('<p>' + message.text + '</p>');
