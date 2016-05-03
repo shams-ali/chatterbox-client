@@ -2,6 +2,7 @@
 class App {
   constructor() {
     this.friendsArray = [];
+    this.server = 'https://api.parse.com/1/classes/messages';
   }
   init() {
     var context = this;
@@ -37,7 +38,7 @@ class App {
   fetch(message) {
     $.ajax({
     // This is the url you should use to communicate with the parse API server.
-      url: app.server,
+      url: 'https://api.parse.com/1/classes/messages',
       type: 'GET',
       data: JSON.stringify(message),
       contentType: 'application/json',
@@ -74,6 +75,7 @@ class App {
   }
   handleSubmit(message, userName) {
     //user name + : + message to #chats div
+    app.fetch(message);
     app.send(message);
     $('#chats').append('<div id="chat">' + message + '</div>');
   }
@@ -81,3 +83,6 @@ class App {
   
 var app = new App();
 
+$( document ).ready(function() {
+  app.init();
+});
