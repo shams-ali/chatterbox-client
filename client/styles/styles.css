@@ -1,8 +1,12 @@
 body {
-    background: #7ecdd2;
+    background-image: url('adventure-time.jpg');
+    /*background: #7ecdd2;*/
     text-align: center;
     padding: 0 25px;
-    font-family: arial, sans-serif;
+    font-family: 'Open Sans', sans-serif;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-color: #3398cc;
 }
 
 #main, #chats {
@@ -20,6 +24,7 @@ body {
     font-size: 35px;
     margin-bottom: 5px;
     padding: 5px;
+    font-family: 'Lobster', cursive;
 }
 
 #main h1 span {
@@ -86,4 +91,12 @@ form input[type=text] {
 .friend {
     color: #fff;
     background-color: #0090da;
+}
+
+button {
+    border: none;
+    font-size: 18px;
+    font-family: 'Open Sans', sans-serif;
+    background-color: #346392;
+    color: white;
 }

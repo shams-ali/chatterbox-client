@@ -11,7 +11,7 @@ class App {
     });
     //button is doing submit action, init is being called 3 times, every time you call init
     //you unbind the previous and remind again
-    $('#send').unbind('submit').bind('submit', function(e) {
+    $('#send').submit(function(e) {
       e.preventDefault();
       var messageInput = $('#message').val();
       var userInput = $('.username').text();
@@ -42,11 +42,11 @@ class App {
       data: JSON.stringify(message),
       contentType: 'application/json',
       success: function (data) {
-        console.log('chatterbox: Message sent');
+        console.log('chatterbox: Message received');
       },
       error: function (data) {
         // See: https://developer.mozilla.org/en-US/docs/Web/API/console.error
-        console.error('chatterbox: Failed to send message', data);
+        console.error('chatterbox: Failed to receive message', data);
       }
     });
   }
@@ -74,6 +74,7 @@ class App {
   }
   handleSubmit(message, userName) {
     //user name + : + message to #chats div
+    app.send(message);
     $('#chats').append('<div id="chat">' + message + '</div>');
   }
 }
