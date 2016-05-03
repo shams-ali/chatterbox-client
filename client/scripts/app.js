@@ -6,10 +6,10 @@ class App {
     this.inited = false;
   }
   init() {
-    // if (this.inited) {
-    //   return;
-    // }
-    // this.inited = true;
+    if (this.inited) {
+      return;
+    }
+    this.inited = true;
     var context = this;
     $('#send').submit(function(e) {
       e.preventDefault();
@@ -48,9 +48,10 @@ class App {
       data: JSON.stringify(message),
       contentType: 'application/json',
       success: function (data) {
-        _.each(data.results, function(val) {
-
-          app.addMessage(val);
+        _.each(data.results, function(node) {
+          console.log(node);
+          app.charReplace(node); //call replace to check characters
+          //app.addMessage(node); //call this inside charReplace
         });
         console.log('chatterbox: Message received');
       },
@@ -92,7 +93,18 @@ class App {
     app.fetch(obj);
     $('#chats').append('<div id="chat"><a href="">' + obj.username + '</a>: ' + obj.text + '</div>');
   }
+  charReplace (node) {
+
+    _.each(node, function(value) {
+      // if (value.includes('<') && value.includes('>')) {
+      value = value.replace(/[<>]/g, '');  
+      console.log(value);
+      // } 
+      app.addMessage(node);
+    });
+  }
 }
+
   
 var app = new App();
 
