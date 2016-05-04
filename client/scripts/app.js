@@ -88,6 +88,7 @@ class App {
   }
   handleSubmit (obj) {
     app.send(obj);
+    app.clearMessages();
     app.fetch(obj);
   }
 } 
