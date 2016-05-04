@@ -5,6 +5,7 @@ class App {
     this.rooms = {};
     this.server = 'https://api.parse.com/1/classes/messages';
     this.inited = false;
+    this.messages = null;
   }
   init() {
     if (this.inited) {
@@ -24,6 +25,7 @@ class App {
       };
       context.handleSubmit(obj);  
     });
+    this.fetch();
   } 
   send(message) {
     $.ajax({
@@ -49,7 +51,7 @@ class App {
       data: JSON.stringify(message),
       contentType: 'application/json',
       success: function (data) {
-        console.log(data);
+        // console.log(data);
         _.each(data, function(arr) {
           _.each(arr, function(node) {
             node.text = _.escape(node.text);
@@ -73,17 +75,20 @@ class App {
 
   // }
   addMessage(message) {
-    $('#chats').append('<div id="chat"><a href="" class="username">' + message.username + '</a>: ' + message.text + '</div>');
+    var room = $('#roomSelect').val();
+    // console.log(room);
+    if ( room === 'all') {
+      $('#chats').append('<div id="chat"><a href="" class="username">' + message.username + '</a>: ' + message.text + '</div>');
+    } else if (message.roomname === room) {  
+      $('#chats').append('<div id="chat"><a href="" class="username">' + message.username + '</a>: ' + message.text + '</div>');
+    }
     $('.username').on('click', function() {
       var user = $('.username').text();
       app.addFriend(user);
     });
-    $('#roomSelect').on('click', function() {
-      var room = $('.rooms').text();
-      if (message.roomname === room) {
-        // app.clearMessages(); 
-        $('#chats').append('<div id="chat"><a href="" class="username">' + message.username + '</a>: ' + message.text + '</div>');
-      }
+    $('#roomSelect').unbind('change').bind('change', function() {
+      app.clearMessages();
+      app.fetch();
     });
   }
   addRoom (node) {
@@ -91,24 +96,6 @@ class App {
       app.rooms[node.roomname] = node.roomname;
       $('#roomSelect').append('<option class="rooms" value="' + node.roomname + '">' + node.roomname + '</option>');
     }
-    // for (var prop in app.rooms) {
-    //   $('#roomSelect').append('<option class="rooms" value="' + prop + '">' + prop + '</option>');
-    // }
-    // for (var prop in app.rooms) {
-    //   $('#roomSelect').append('<option class="rooms" value="' + prop + '">' + prop + '</option>');
-    // }
-    console.log(app.rooms);
- 
-    //$('#roomSelect').append('<option class="rooms" value="' + roomname + '">' + roomname + '</option>');
-    // var roomExists = false;
-    // $('#main a').each(function( index ) {
-    //   if ($(this).text() === chatRoom) {
-    //     roomExists = true;
-    //   }
-    // });
-    // if (!roomExists) {
-    //   $('#roomSelect').append('<a href="#">' + chatRoom + '</a>');
-    // }
   }
   addFriend (friend) {
     this.friendsArray.push(friend);
