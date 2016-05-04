@@ -48,10 +48,11 @@ class App {
       data: JSON.stringify(message),
       contentType: 'application/json',
       success: function (data) {
-        _.each(data.results, function(node) {
-          console.log(node);
-          app.charReplace(node); //call replace to check characters
-          //app.addMessage(node); //call this inside charReplace
+        _.each(data, function(arr) {
+          _.each(arr, function(node) {
+            node.text = _.escape(node.text);
+            app.addMessage(node);
+          });
         });
         console.log('chatterbox: Message received');
       },
@@ -65,13 +66,10 @@ class App {
     $('#chats').empty();
   }
   addMessage(message) {
-    var context = this;
-    $('#chats').append('<div class="message"></div>');
-    $('.message').append('<h2><a class="username" href=' + message.username + '</a></h2>');
-    $('.message').append('<p>' + message.text + '</p>');
+    $('#chats').append('<div id="chat"><a href="" class="username">' + message.username + '</a>: ' + message.text + '</div>');
     $('.username').on('click', function() {
       var user = $('.username').text();
-      context.addFriend(user);
+      app.addFriend(user);
     });
   }
   addRoom (chatRoom) {
@@ -85,29 +83,15 @@ class App {
       $('#roomSelect').append('<a href="#">' + chatRoom + '</a>');
     }
   }
-  addFriend(friend) {
+  addFriend (friend) {
     this.friendsArray.push(friend);
   }
-  handleSubmit(obj) {
+  handleSubmit (obj) {
     app.send(obj);
     app.fetch(obj);
-    $('#chats').append('<div id="chat"><a href="">' + obj.username + '</a>: ' + obj.text + '</div>');
   }
-  charReplace (node) {
-
-    _.each(node, function(value) {
-      // if (value.includes('<') && value.includes('>')) {
-      value = value.replace(/[<>]/g, '');  
-      console.log(value);
-      // } 
-      app.addMessage(node);
-    });
-  }
-}
-
-  
+} 
 var app = new App();
-
 $(document).ready(function() {
   app.init();
 });
